@@ -1,24 +1,23 @@
-import logo from './logo.svg';
-import './App.css';
+import './App.scss';
+import Header from './Components/Header';
+import Movies from './Components/Movies';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function App() {
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    axios("https://raw.githubusercontent.com/japor/dot-Theory-JS-Training/main/list_movies.json")
+      .then(response => setMovies(response.data.data.movies))
+      .catch(error => console.log('Error fetching and parsing data', error))
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Header />
+      <Movies movies={movies} />
+    </>
   );
 }
 
